@@ -3,13 +3,14 @@ import subprocess
 from google.cloud import speech_v1p1beta1 as speech
 from pydub import AudioSegment
 from pydub.utils import mediainfo
+from creds import constants
 
 # Google Cloud credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds/coen291-332f3d95e6a4.json"
+cred_path = "creds/coen291-332f3d95e6a4.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred_path
 
 # YouTube Data API key
-YOUTUBE_API_KEY = "AIzaSyAXsezp9j5H9qBIT3NjWrLvxcxPlMbjDDI"
-
+YOUTUBE_API_KEY = constants.YOUTUBE_API_KEY
 def transcribe_youtube_video():
     youtube_url = input("Enter the youtube video url")
     #"https://www.youtube.com/watch?v=3_dAkDsBQyk"
