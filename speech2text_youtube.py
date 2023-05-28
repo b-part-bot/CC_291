@@ -1,0 +1,84 @@
+import os
+import subprocess
+from google.cloud import speech_v1p1beta1 as speech
+from pydub import AudioSegment
+from pydub.utils import mediainfo
+
+# Set your Google Cloud credentials
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds/coen291-332f3d95e6a4.json"
+
+# Set your YouTube Data API key
+YOUTUBE_API_KEY = "AIzaSyAXsezp9j5H9qBIT3NjWrLvxcxPlMbjDDI"
+
+def transcribe_youtube_video():
+    # Get the YouTube URL from the user
+    youtube_url = input("Enter the youtube video url")
+    #"https://www.youtube.com/watch?v=3_dAkDsBQyk"
+
+    # Download the YouTube video as audio
+    audio_filename = "audio.mp3"
+    download_command = f'yt-dlp -x --audio-format mp3 -o "{audio_filename}" {youtube_url}'
+    subprocess.call(download_command, shell=True)
+
+    # Convert the audio to mono
+    audio = AudioSegment.from_mp3(audio_filename)
+    audio = audio.set_channels(1)
+    mono_audio_filename = "mono_audio.mp3"
+    audio.export(mono_audio_filename, format="mp3")
+    sample_rate  = int(mediainfo(mono_audio_filename).get('sample_rate'))
+    print(sample_rate)
+
+    # Upload the mono audio file to Google Cloud Storage
+    bucket_name = "cc_291"
+    gsutil_upload_command = f"gsutil cp {mono_audio_filename} gs://{bucket_name}/{mono_audio_filename}"
+    subprocess.call(gsutil_upload_command, shell=True)
+
+    # Set up the Speech-to-Text client
+    client = speech.SpeechClient()
+
+    # Configure the audio settings with the GCS URI
+    audio_uri = f"gs://{bucket_name}/{mono_audio_filename}"
+    audio = speech.RecognitionAudio(uri=audio_uri)
+    config = speech.RecognitionConfig(
+        encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
+        language_code="en-US",
+        enable_speaker_diarization=True,
+        diarization_speaker_count=2,
+        sample_rate_hertz=sample_rate,
+
+    )
+
+    # Perform the transcription
+    operation = client.long_running_recognize(config=config, audio=audio)
+    response = operation.result(timeout=90)
+
+    # Extract the speaker diarized transcription
+    result = response.results[-1]
+    conversation = list()
+    words_info = result.alternatives[0].words
+    current = words_info[0].speaker_tag
+    # Printing out the output:
+    ongoing = {words_info[0].speaker_tag:[]}
+    for word_info in words_info:
+        #print("word: '{}', speaker_tag: {}".format(word_info.word,word_info.speaker_tag))
+        if word_info.speaker_tag != current:
+            conversation.append(ongoing)
+            ongoing = { word_info.speaker_tag :[] }
+            current = word_info.speaker_tag
+            ongoing[word_info.speaker_tag].append(word_info.word)
+        else:
+            ongoing[word_info.speaker_tag].append(word_info.word)
+    conversation.append(ongoing)
+    for converse in conversation:
+        print( "Speaker {} : {}".format( list(converse.keys())[0], " ".join(converse[list(converse.keys())[0]]) ) )
+
+    # Clean up the downloaded audio files
+    os.remove(audio_filename)
+    os.remove(mono_audio_filename)
+
+    # Delete the audio file from Google Cloud Storage
+    gsutil_delete_command = f"gsutil rm gs://{bucket_name}/{mono_audio_filename}"
+    subprocess.call(gsutil_delete_command, shell=True)
+
+# Call the function to start the transcription process
+transcribe_youtube_video()
