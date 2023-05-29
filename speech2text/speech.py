@@ -17,7 +17,8 @@ def transcribe_audio_with_speaker_diarization(audio_file):
     audio = speech.RecognitionAudio(content=content)
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
-        sample_rate_hertz=16000,
+        audio_channel_count = 2,
+        #sample_rate_hertz=speech.RecognitionConfig.AudioEncoding.SAMPLE_RATE_UNSPECIFIED,
         enable_speaker_diarization=True,
         diarization_speaker_count=2,  # Number of speakers (change accordingly)
         language_code="en-US",
@@ -25,19 +26,25 @@ def transcribe_audio_with_speaker_diarization(audio_file):
 
     # Perform the transcription with speaker diarization
     response = client.recognize(config=config, audio=audio)
-
+    print(response.results)
     # Parse the response and extract the transcriptions
-    results = response.results
-    for result in results:
+    current_speaker = 1
+    conversation = []
+    for result in response.results:
         alternative = result.alternatives[0]
-        print(f"Transcript: {alternative.transcript}")
-        print(f"Confidence: {alternative.confidence}")
-        if alternative.words:
-            for word in alternative.words:
-                speaker_tag = word.speaker_tag
-                print(f"Word: {word.word}")
-                print(f"Speaker Tag: {speaker_tag}")
+        transcript = alternative.transcript
+        confidence = alternative.confidence
+        speaker_tag = alternative.words[0].speaker_tag
+
+        if speaker_tag != current_speaker:
+            conversation.append(f"Speaker {speaker_tag}: {transcript}")
+            current_speaker = speaker_tag
+        else:
+            conversation.append(transcript)
+
+    conversation_text = "\n".join(conversation)
+    print(conversation_text)
 
 if __name__ == "__main__":
-    audio_file_path = "C:/Users/bhara/OneDrive - scu.edu/Code Projects/CC/CC_291/mc56.mp3"
+    audio_file_path = "C:/Users/bhara/OneDrive - scu.edu/Code Projects/CC/CC_291/Audio/dialog1.mp3"
     transcribe_audio_with_speaker_diarization(audio_file_path)

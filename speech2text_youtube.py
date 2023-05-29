@@ -43,7 +43,6 @@ def transcribe_youtube_video():
         encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
         language_code="en-US",
         enable_speaker_diarization=True,
-        diarization_speaker_count=2,
         sample_rate_hertz=sample_rate,
 
     )
@@ -51,7 +50,6 @@ def transcribe_youtube_video():
     # transcription operation
     operation = client.long_running_recognize(config=config, audio=audio)
     response = operation.result(timeout=90)
-
     # Extract the speaker diarized transcription
     result = response.results[-1]
     conversation = list()

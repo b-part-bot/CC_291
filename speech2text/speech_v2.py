@@ -3,21 +3,20 @@ import io
 import os
 from google.cloud import speech
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="CC_291\coen291-332f3d95e6a4.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="creds/coen291-332f3d95e6a4.json"
 
 from google.cloud import speech_v1p1beta1 as speech
 from tqdm import tqdm
 client = speech.SpeechClient()
 
 conversation = list()
-audio_file = "C:/Users/bhara/OneDrive - scu.edu/Code Projects/CC/CC_291/Audio/dialog1.mp3"
+audio_file = "mono_audio.mp3"
 with io.open(audio_file, "rb") as audio_data:
     content = audio_data.read()
 audio = speech.types.RecognitionAudio(content=content)
 
 config = speech.types.RecognitionConfig(
     encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
-    sample_rate_hertz=16000,
     language_code='en-US',
     enable_speaker_diarization=True,
     diarization_speaker_count=2)
