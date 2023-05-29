@@ -1,0 +1,10 @@
+body{  
+  /* background-image: linear-gradient(to right, rgba(127, 127, 213, 0.2), rgba(145, 234, 228, 0.7)); */
+  background-color: #130f40;
+background-image: linear-gradient(315deg, #130f40 0%, #000000 74%);
+
+  color: white;
+}
+.container {
+  max-width: 960px;
+}
