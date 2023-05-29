@@ -11,8 +11,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred_path
 
 # YouTube Data API key
 YOUTUBE_API_KEY = constants.YOUTUBE_API_KEY
-def transcribe_youtube_video():
-    youtube_url = input("Enter the youtube video url")
+def transcribe_youtube_video(url):
+    youtube_url = url
     #"https://www.youtube.com/watch?v=3_dAkDsBQyk"
 
     # Download YT video as audio
@@ -65,15 +65,24 @@ def transcribe_youtube_video():
         else:
             ongoing[word_info.speaker_tag].append(word_info.word)
     conversation.append(ongoing)
+    transcript = ""
     for converse in conversation:
-        print( "Speaker {} : {}".format( list(converse.keys())[0], " ".join(converse[list(converse.keys())[0]]) ) )
-
+        transcript+= "Speaker {} : {}".format( list(converse.keys())[0], " ".join(converse[list(converse.keys())[0]]) ) + "\n"
+    print(transcript)
     # Clean up audio files
-    os.remove(audio_filename)
-    os.remove(mono_audio_filename)
+    try:
+        # Remove local audio files
+        os.remove(audio_filename)
+        os.remove(mono_audio_filename)
+        
+        # Delete the audio file from Google Cloud Storage
+        gsutil_delete_command = f"gsutil rm gs://{bucket_name}/{mono_audio_filename}"
+        subprocess.call(gsutil_delete_command, shell=True)
+        
+        print("Files deleted successfully.")
+        
+    except OSError as e:
+        print(f"Error occurred while deleting files: {e}")
 
-    # Delete the audio file from Google Cloud Storage
-    gsutil_delete_command = f"gsutil rm gs://{bucket_name}/{mono_audio_filename}"
-    subprocess.call(gsutil_delete_command, shell=True)
-
-transcribe_youtube_video()
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while executing gsutil command: {e}")
