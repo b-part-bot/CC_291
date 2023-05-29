@@ -101,14 +101,14 @@
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1"><h4>Transcribed text</h4></label><br>
                   <!-- <label for="firstName" class="form-label">Update the Speaker labels to match the characters from your desired shows</label> -->
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Text transcription of audio will appear here" disabled></textarea>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Text transcription of audio will appear here"></textarea>
                   <label for="address" class="form-label mt-4">TV Show you want your comic to be based on:</label>
-                  <input type="text" class="form-control" id="address" placeholder="Ex: Big Bang Theory" required disabled>
+                  <input type="text" class="form-control" id="address" placeholder="Ex: Big Bang Theory" required>
                   <div class="invalid-feedback">
                     Please enter a TV Show of your choice
                   </div>              
                   <label for="address" class="form-label mt-4">Custom requirements for the script:</label>
-                  <input type="text" class="form-control" id="customReq" placeholder="Ex: Funny, in the style of Peanuts" required disabled>
+                  <input type="text" class="form-control" id="customReq" placeholder="Ex: Funny, in the style of Peanuts" required>
                 </div>    
                 <div class="text-center">       
                   <button class="col-12 btn btn-primary btn-lg mt-4" type="submit">Generate script for your comic</button>
@@ -130,7 +130,7 @@
               <div class="form-group">
                 <label for="formControlTextarea2"><h4>GPT generated script</h4></label><br>
                 <label for="firstName" class="form-label">Edit the script to match your style and requirements</label>
-                <textarea class="form-control" id="formControlTextarea2" rows="12" placeholder="Text transcription of audio will appear here" disabled></textarea>
+                <textarea class="form-control" id="formControlTextarea2" rows="12" placeholder="Text transcription of audio will appear here"></textarea>
                 <div class="text-right">
                   <button class="col-5 btn btn-warning mt-4">Regenerate Script</button>
                 </div>
@@ -185,7 +185,6 @@
 
 
     <script src="static/css/bootstrap.bundle.min.js"></script>
-
-      <!--<script src="form-validation.js"></script>-->
+    <script src="static/css/form-validation.js"></script>
   </body>
 </html>

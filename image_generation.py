@@ -1,9 +1,10 @@
 import openai
 import replicate
 import os
-os.environ['REPLICATE_API_TOKEN'] ='r8_KwzPzZrEIWKIfGB7j1Bs8NHNmoMJ9MS32Fdna'
+import creds.constants as constants
+os.environ['REPLICATE_API_TOKEN'] = constants.REPLICATE_API_TOKEN
 
-openai.api_key = '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'
+openai.api_key = constants.OPEN_API_KEY
 
 prompt = """  Big bang theory. Generate a comic strip with ((3)) panels based on the following transcript. Peanuts comic style. Stick to the setting.
 [Setting: Sheldon and Leonard's apartment. Sheldon, Leonard, Howard, and Raj are present.]  Panel 1: [Leonard holds a container of Pad Thai, addressing the group] LEONARD: There you go, Pad Thai, no peanuts.  
