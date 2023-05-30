@@ -86,3 +86,4 @@ def transcribe_youtube_video(url):
 
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while executing gsutil command: {e}")
+    return transcript

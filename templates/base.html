@@ -1,0 +1,20 @@
+<!-- base.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Comic Strip Generator</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/form-validation.css') }}" rel="stylesheet">
+  <style>
+    /* Custom styles specific to the base template */
+  </style>
+</head>
+<body class="bg-dark">
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <script src="{{ url_for('static', filename='css/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='css/form-validation.js') }}"></script>
+</body>
+</html>
