@@ -3,28 +3,28 @@
 
 {% block content %}
 <div class="col-md-12 col-lg-12">
-    <h4 class="mb-3">Transcription</h4>
-    <label>Enter a YouTube URL to be transcribed</label>
-    <form class="needs-validation form form-inline" action="/transcribe_audio" method="POST" novalidate>
-      <div class="row g-3">
-        <span class="col-10">              
-          <input type="text" class="form-control" id="youtubeURL" name="youtubeURL" placeholder="Ex: https://www.youtube.com/watch?v=jNQXAC9IVRw" required>
-          <span class="invalid-feedback">
-            Please input a YouTube URL to be transcribed.
-          </span>
+  <h4 class="mb-3">Transcription</h4>
+  <label>Enter a YouTube URL to be transcribed</label>
+  <form class="needs-validation form form-inline" action="/transcribe_audio" method="POST" novalidate>
+    <div class="row g-3">
+      <span class="col-10">              
+        <input type="text" class="form-control" id="youtubeURL" name="youtubeURL" placeholder="Enter URL" required value={{ youtubeURL }}>
+        <span class="invalid-feedback">
+          Please input a YouTube URL to be transcribed.
         </span>
-        <span class="col-2">              
-          <input class="btn btn-primary d-inline-block" type="submit" value="Transcribe audio"></button>
-        </span>
-      </div>
-    </form>
-    <div class="text-center mt-4 d-none" id="spinner1Div">
-      <div class="spinner-border" role="status">
-        <span class="sr-only"></span>
-      </div>
+      </span>
+      <span class="col-2">              
+        <input class="btn btn-primary d-inline-block" type="submit" value="Transcribe audio"></button>
+      </span>
     </div>
-    <hr class="my-4">
-    <!-- Include the transcribed_text.html file -->
-    {% include 'transcribed_text.html' %}
+  </form>
+  <div class="text-center mt-4 d-none" id="spinner1Div">
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
   </div>
-  {% endblock %}
+  <hr class="my-4">
+  <!-- Include the transcribed_text.html file -->
+  {% include 'transcribed_text.html' %}
+</div>
+{% endblock %}
