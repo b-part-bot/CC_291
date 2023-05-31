@@ -4,7 +4,6 @@ from creds import constants
 import speech2text_youtube as s2t_yt
 import openai
 import image_generation
-
 openai.api_key = constants.OPENAI_API_KEY
 app = Flask(__name__)
 app.debug = True
@@ -44,12 +43,12 @@ def generate_script():
     print(tvshow)
     customreq = data['customReq']
     print(customreq)
+
     gpt_messages = [ {"role": "system", "content": "You are designed to generate a short and good script for a comic strip based on the transcript input by the user"} ]
-    # if tvshow.lower().strip()=='big bang theory':
-    #     chararcter_desc = 
+
     try:
         gpt_messages.append(
-            {"role": "user", "content": "Generate a 4 panel script for a comic strip in the style of the TV show "+tvshow+". It should also be "+customreq+". "+prompt},
+            {"role": "user", "content": "Fix this transcript. Generate a 6 panel comic book in the style of the TV show "+tvshow+". Enforce these requirements in the script:"+customreq+". "+prompt},
         )
         chat = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=gpt_messages
@@ -63,6 +62,20 @@ def generate_script():
     except Exception as e:
         return jsonify({'status':'204', 'e':e})
     
+def get_setting_from_prompt(prompt, tvshow, customreq):
+    gpt_setting_prompt = [ {"role": "system", "content": "Create a one line setting for each panel for a comic book based on this script"+prompt+" by the user. Take into account the TV show its based on"+tvshow+"Describe what each person is doing from the script provided so that stable diffusion can create a comic book.Include these requirements in your description of the image"+customreq} ]
+    try:
+        chat = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", messages=gpt_setting_prompt
+        )
+        if(chat.choices[0].message.content):
+            reply = chat.choices[0].message.content
+            print("Setting from prompt = \n"+reply)
+            return reply
+        else:
+            print("Error retrieving setting from prompt!")
+    except Exception as e:
+        print(e)
 
 @app.route('/api/generate_comic', methods=['POST'])
 def generate_comic():
@@ -74,7 +87,12 @@ def generate_comic():
     print(imageModel)
     tvshow = data['tvshow']
     print(tvshow)
-    prompt = 'Big bang theory. Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript. Stick to the setting.'+script
+    customreq = data['customReq']
+    print(customreq)
+    negative_prompt = "Negative prompt: ((((big hands, un-detailed skin, extra panels)))), (((ugly mouth, ugly eyes, missing teeth, crooked teeth, close up, cropped, out of frame)))"
+    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_setting_from_prompt(script, tvshow, customreq)+negative_prompt
+    
+    print("generate_comic prompt" + prompt)
     if imageModel == 'Stable Diffusion':
         url = image_generation.generate_stableDiffusion_image(prompt)
     if imageModel == 'Kandinsky':

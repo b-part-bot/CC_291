@@ -60,8 +60,3 @@ def generate_stableDiffusion_image(prompt):
     except Exception as e: 
         print(e) 
         return "There was an issue in generating the image. Please try again later"
-
-# print('Stable Diffusion -\n',generate_stableDiffusion_image(prompt))
-# print('\nKandinsky -\n', generate_kandinsky_image(prompt))
-# print('\nDallE -\n',generate_dalle_image(prompt))
-# print('\nVariation -\n',variation())

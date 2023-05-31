@@ -105,20 +105,18 @@ function generateGptScript(event){
       });
 }
 
-function regenerateGptScript(){
-  let gptGeneratedScript = document
-}
 
 function generateComic(event){
   event.preventDefault()
   console.log('API is being called')
-  let spinner = document.getElementById('spinner3Div')
-  // spinner.style.display='block'
+  let spinner = document.getElementById('spinner4Div')
+  spinner.style.display='block'
   let script = document.getElementById('gptGeneratedScript').value
   let imageModel = document.getElementById('imageModel').value
   let tvshow = document.getElementById('tvshow').value
+  let customReq = document.getElementById('customReq').value
   
-  const data = { 'script': script, 'imageModel':imageModel, 'tvshow':tvshow};
+  const data = { 'script': script, 'imageModel':imageModel, 'tvshow':tvshow, 'customReq':customReq};
   console.log(data)
 
   fetch('http://127.0.0.1:5000/api/generate_comic', {
@@ -143,6 +141,12 @@ function generateComic(event){
       console.error('Error:', error);
       alert('An error occurred. Please try again')
     });
+}
+
+function regenerateComic(event) {
+  event.preventDefault();
+  console.log('Regenerating comic...');
+  generateComic(event);
 }
 
 var fieldCounter = 1;
