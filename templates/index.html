@@ -100,10 +100,11 @@
             </span>
           </div>
         </form>
-        <div class="text-center mt-4" id="spinner1Div" style="display: none;">
+        <div class="text-center mt-4" id="spinner1Div" style="display: none;">          
           <div class="spinner-border" role="status">
             <span class="sr-only"></span>
-          </div>
+          </div><br>
+          This may take a while
         </div>
         <hr class="my-4">
           <div class="row mt-4">
@@ -156,7 +157,7 @@
                   <select class="form-select" id="imageModel">
                     <option selected value="0">Select model</option>
                     <option value="Stable Diffusion">Stable Diffusion (recommended)</option>
-                    <option value="Dall-E">Dall-E</option>
+                    <option value="Midjourney">Midjourney</option>
                     <option value="Kandinsky">Kandinsky</option>
                   </select>  
                 </div>
@@ -165,7 +166,7 @@
                 </div>
               </form>
             </div>
-            <div class="text-center mt-4 d-none" id="spinner3Div">
+            <div class="text-center mt-4" id="spinner3Div"  style="display: none;">
               <div class="spinner-border" role="status">
                 <span class="sr-only"></span>
               </div>
@@ -173,28 +174,28 @@
           </div>          
           <hr class="my-4">
           <div class="row mt-4">
-            <div class="col-md-12">
+            <div class="col-md-12" id="comicSection" style="display: none;">
               <div class="form-group">
                 <h4>Your Custom Comic Strip</h4><br>
                 <img id="comic"/>
-              </div>
-              <div class="text-center">
-                <!--<button class="col-5 btn btn-warning mt-4" type="submit">Make a Variation</button>-->
-                <button class="col-5 btn btn-primary mt-4" id="regenerateBtn" type="click" onclick="generateComic()">Regenerate</button>
-                <button class="col-5 btn btn-success mt-4" id="downloadBtn" type="download" onclick="downloadImage()">Download</button>
-              </div>
-              <div class="text-center mt-4 d-none" id="spinner4Div">
+              </div>              
+              <div class="text-center mt-4" id="spinner4Div" style="display: none;">
                 <div class="spinner-border" role="status">
                   <span class="sr-only"></span>
                 </div>
               </div>
+              <div class="text-center" id="comicSectionButtons" style="display: none;">
+                <!--<button class="col-5 btn btn-warning mt-4" type="submit">Make a Variation</button>-->
+                <button class="col-5 btn btn-primary mt-4" id="regenerateBtn" type="click" onclick="generateComic()">Regenerate</button>
+                <button class="col-5 btn btn-success mt-4" id="downloadBtn" type="download" onclick="downloadImage()">Download</button>
+              </div>
+              <hr class="my-4">
             </div>
           </div>
 
         </div> 
         </div>
 
-          <hr class="my-4">
 
       </div>
     </div>
@@ -220,7 +221,7 @@
         
 
 
-        async function downloadImage(imageSrc, nameOfDownload = 'my-image.png') {
+        async function downloadImage(imageSrc, nameOfDownload) {
           const response = await fetch(imageSrc);
           const blobImage = await response.blob();
           const href = URL.createObjectURL(blobImage);
@@ -240,8 +241,8 @@
         
         btn.addEventListener("click", () => {
           downloadImage(
-            'http://localhost:3000/house.png',
-            'my-image.png',
+            imageURL,
+            'comic.png',
           )
             .then(() => {
               console.log('The image has been downloaded');

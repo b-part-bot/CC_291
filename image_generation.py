@@ -60,3 +60,14 @@ def generate_stableDiffusion_image(prompt):
     except Exception as e: 
         print(e) 
         return "There was an issue in generating the image. Please try again later"
+    
+def generate_midjourney_image(prompt):
+    try: 
+        output = replicate.run(
+            "tstramer/midjourney-diffusion:436b051ebd8f68d23e83d22de5e198e0995357afef113768c20f0b6fcef23c8b",
+            input={"prompt": prompt}
+        )
+        return output    
+    except Exception as e: 
+        print(e) 
+        return "There was an issue in generating the image. Please try again later"

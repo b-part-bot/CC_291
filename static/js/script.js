@@ -1,4 +1,5 @@
 console.log('asdasdasdasdasdasdads')
+imageURL=''
 function transcribeAudio(event) {
     event.preventDefault()
     let spinner = document.getElementById('spinner1Div')
@@ -109,8 +110,10 @@ function generateGptScript(event){
 function generateComic(event){
   event.preventDefault()
   console.log('API is being called')
-  let spinner = document.getElementById('spinner4Div')
+  let spinner = document.getElementById('spinner3Div')
   spinner.style.display='block'
+  let comicSection = document.getElementById('comicSection')
+  comicSection.style.display = 'block'
   let script = document.getElementById('gptGeneratedScript').value
   let imageModel = document.getElementById('imageModel').value
   let tvshow = document.getElementById('tvshow').value
@@ -132,7 +135,10 @@ function generateComic(event){
       spinner.style.display='none'
       if(result['status'] == '200'){     
           let comicElement = document.getElementById('comic')
-          comicElement.src = result['url']
+          comicElement.src = result['url'] 
+          imageURL=result['url']         
+          let comicSectionButtons = document.getElementById('comicSectionButtons')
+          comicSectionButtons.style.display = 'block'
       }
       else
           alert('An error occurred. Please try again later. Status - ',result['status'])

@@ -63,7 +63,7 @@ def generate_script():
         return jsonify({'status':'204', 'e':e})
     
 def get_setting_from_prompt(prompt, tvshow, customreq):
-    gpt_setting_prompt = [ {"role": "system", "content": "Create a one line setting for each panel for a comic book based on this script"+prompt+" by the user. Take into account the TV show its based on"+tvshow+"Describe what each person is doing from the script provided so that stable diffusion can create a comic book.Include these requirements in your description of the image"+customreq} ]
+    gpt_setting_prompt = [ {"role": "system", "content": "Create a one line setting for each panel for a comic book based on this script: "+prompt+" . Do not include dialogues. Take into account that this is based on the TV show "+tvshow+". Describe what each person is doing from the script provided so that stable diffusion can create a comic book. Include these requirements in your description of the image"+customreq} ]
     try:
         chat = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=gpt_setting_prompt
@@ -90,15 +90,15 @@ def generate_comic():
     customreq = data['customReq']
     print(customreq)
     negative_prompt = "Negative prompt: ((((big hands, un-detailed skin, extra panels)))), (((ugly mouth, ugly eyes, missing teeth, crooked teeth, close up, cropped, out of frame)))"
-    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_setting_from_prompt(script, tvshow, customreq)+negative_prompt
+    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_setting_from_prompt(script, tvshow, customreq)+", retro comic style artwork, highly detailed, vibrant, vivid-color,"+negative_prompt
     
-    print("generate_comic prompt" + prompt)
+    print("generate_comic prompt********************************************************************\n" + prompt)
     if imageModel == 'Stable Diffusion':
         url = image_generation.generate_stableDiffusion_image(prompt)
     if imageModel == 'Kandinsky':
-        url = image_generation.generate_stableDiffusion_image(prompt)
-    if imageModel == 'Dall-E':
-        url = image_generation.generate_stableDiffusion_image(prompt)
+        url = image_generation.generate_kandinsky_image(prompt)
+    if imageModel == 'Midjourney':
+        url = image_generation.generate_midjourney_image(prompt)
     return jsonify({'url':url, 'status':'200'})
 
 if __name__ == "__main__":
