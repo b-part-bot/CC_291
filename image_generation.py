@@ -2,9 +2,9 @@ import openai
 import replicate
 import os
 import creds.constants as constants
-os.environ['REPLICATE_API_TOKEN'] = constants.REPLICATE_API_TOKEN
+os.environ['REPLICATE_API_TOKEN'] = constants.REPLICATE_API_KEY
 
-openai.api_key = constants.OPEN_API_KEY
+openai.api_key = constants.OPENAI_API_KEY
 
 prompt = """  Big bang theory. Generate a comic strip with ((3)) panels based on the following transcript. Peanuts comic style. Stick to the setting.
 [Setting: Sheldon and Leonard's apartment. Sheldon, Leonard, Howard, and Raj are present.]  Panel 1: [Leonard holds a container of Pad Thai, addressing the group] LEONARD: There you go, Pad Thai, no peanuts.  
@@ -61,7 +61,7 @@ def generate_stableDiffusion_image(prompt):
         print(e) 
         return "There was an issue in generating the image. Please try again later"
 
-print('Stable Diffusion -\n',generate_stableDiffusion_image(prompt))
-print('\nKandinsky -\n', generate_kandinsky_image(prompt))
-print('\nDallE -\n',generate_dalle_image(prompt))
-print('\nVariation -\n',variation())
+# print('Stable Diffusion -\n',generate_stableDiffusion_image(prompt))
+# print('\nKandinsky -\n', generate_kandinsky_image(prompt))
+# print('\nDallE -\n',generate_dalle_image(prompt))
+# print('\nVariation -\n',variation())

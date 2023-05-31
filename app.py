@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 from creds import constants
 import speech2text_youtube as s2t_yt
 import openai
+import image_generation
 
 openai.api_key = constants.OPENAI_API_KEY
 app = Flask(__name__)
@@ -34,7 +35,7 @@ def transcribe_audio():
     return jsonify(response)
 
 @app.route('/api/generate_script', methods=['POST'])
-def generate_gpt_script():
+def generate_script():
     print('new req')
     data = request.get_json()
     prompt = data['prompt']
@@ -44,10 +45,11 @@ def generate_gpt_script():
     customreq = data['customReq']
     print(customreq)
     gpt_messages = [ {"role": "system", "content": "You are designed to generate a short and good script for a comic strip based on the transcript input by the user"} ]
-
+    # if tvshow.lower().strip()=='big bang theory':
+    #     chararcter_desc = 
     try:
         gpt_messages.append(
-            {"role": "user", "content": "Generate a script for a comic strip in the style of the TV show "+tvshow+". It should also be "+customreq+". "+prompt},
+            {"role": "user", "content": "Generate a 4 panel script for a comic strip in the style of the TV show "+tvshow+". It should also be "+customreq+". "+prompt},
         )
         chat = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=gpt_messages
@@ -60,6 +62,26 @@ def generate_gpt_script():
             return jsonify({'status':'202'})
     except Exception as e:
         return jsonify({'status':'204', 'e':e})
+    
+
+@app.route('/api/generate_comic', methods=['POST'])
+def generate_comic():
+    print('new req')
+    data = request.get_json()
+    script = data['script']
+    print(script)
+    imageModel = data['imageModel']
+    print(imageModel)
+    tvshow = data['tvshow']
+    print(tvshow)
+    prompt = 'Big bang theory. Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript. Stick to the setting.'+script
+    if imageModel == 'Stable Diffusion':
+        url = image_generation.generate_stableDiffusion_image(prompt)
+    if imageModel == 'Kandinsky':
+        url = image_generation.generate_stableDiffusion_image(prompt)
+    if imageModel == 'Dall-E':
+        url = image_generation.generate_stableDiffusion_image(prompt)
+    return jsonify({'url':url, 'status':'200'})
 
 if __name__ == "__main__":
     app.run(debug=True)

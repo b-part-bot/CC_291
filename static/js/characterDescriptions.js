@@ -1,0 +1,9 @@
+var bbtCharacters = {
+    "leonard":"Leonard is a short and a little thick man, in his late twenties. He is 1.65 meters tall with brunette hair. He is wearing black thick-framed glasses, a light blue colored science t-shirt, brown trousers and low-cut black Converse All Stars sneakers.",
+    "howard":"Howard is a short, thin man, in his mid-twenties. He is 1.63 meters tall with brown hair and a bowl haircut wearing loud, vintage, 1960-era outfits with a matching color scheme: a red V-neck over a black turtleneck, Converse sneakers and skinny green pants with a huge belt buckle",
+    "sheldon":"Sheldon is a tall, lean, yet well-built man, in his late twenties. He is 1.85 meters tall with brown hair and blue eyes. He is wearing a green colored vintage T-shirt adorned with a reference to starwars.",
+    "raj": "Raj is a man of ideal weight and is average height for an Indian man, in his mid-twenties. He's 1.70 meters tall, with black hair and brown eyes. He is wearing a layered combination of a dark blue shirt, a patterned sweater vest, and a windbreaker with khaki cargo pants and skate shoes",
+    "penny": "Penny is a very beautiful woman with layered blonde hair and is of average height. She is wearing a black Cherry Print Blouse and blue jeans.",
+    "amy": "Amy is 1.63 m tall, brunette and her outfit includes red-frame glasses, a vest worn over striped shirts and denim skirts and orthopedic shoes. Her hair is untied.",
+    "bernadette": "Bernadette is a very short woman. She is 1.47 meters tall, with blonde hair, pale creamy skin. Her wardrobe consists of red-frame glasses, petite cardigan, knee-length floral skirt, and black flats",
+}
