@@ -89,8 +89,7 @@ def generate_comic():
     print(tvshow)
     customreq = data['customReq']
     print(customreq)
-    negative_prompt = "Negative prompt: ((((big hands, un-detailed skin, extra panels)))), (((ugly mouth, ugly eyes, missing teeth, crooked teeth, close up, cropped, out of frame)))"
-    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_setting_from_prompt(script, tvshow, customreq)+", retro comic style artwork, highly detailed, vibrant, vivid-color,"+negative_prompt
+    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_setting_from_prompt(script, tvshow, customreq)+", retro comic style artwork, highly detailed, vibrant, vivid-color,"
     
     print("generate_comic prompt********************************************************************\n" + prompt)
     if imageModel == 'Stable Diffusion':

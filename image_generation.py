@@ -6,14 +6,7 @@ os.environ['REPLICATE_API_TOKEN'] = constants.REPLICATE_API_KEY
 
 openai.api_key = constants.OPENAI_API_KEY
 
-prompt = """  Big bang theory. Generate a comic strip with ((3)) panels based on the following transcript. Peanuts comic style. Stick to the setting.
-[Setting: Sheldon and Leonard's apartment. Sheldon, Leonard, Howard, and Raj are present.]  Panel 1: [Leonard holds a container of Pad Thai, addressing the group] LEONARD: There you go, Pad Thai, no peanuts.  
-[Panel 2: [Howard looks concerned and asks about peanut oil] HOWARD: But does it have peanut oil?  [Leonard responds while gesturing towards Howard] LEONARD: Uh, I'm not sure. Everyone keep an eye on Howard in case he starts to swell up.  
-[Panel 3: [Sheldon chimes in, offering his epinephrine] SHELDON: Since it's not bee season, you can have my epinephrine.  
-Cartoon style 
-Negative prompt: ((((big hands, un-detailed skin, realistic, extra panels)))), (((ugly mouth, ugly eyes, missing teeth, crooked teeth, close up, cropped, out of frame)))
-"""
-
+prompt = "Generate a 6 paneled comic strip based on the following transcript"
 def generate_dalle_image(prompt):
     try:
         if prompt:

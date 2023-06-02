@@ -62,12 +62,12 @@ def generate_comic(request):
     print(imageModel)
     print(tvshow)
     print(customreq)
-    negative_prompt = ""
-    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_panel_script(script)+negative_prompt
+    negative_prompt = "big hands, un-detailed skin, extra panels,ugly mouth, ugly eyes, missing teeth, crooked teeth, close up, cropped, out of frame"
+    prompt = "Generate a realistic, high-quality, consistent, sequential-art panel of a comic based on the following transcript."+get_panel_script(script)+"The comic should be in the style of the TV show "+tvshow+". The comic should be "+customreq+"."    
     
     print("generate_comic prompt" + prompt)
-    if imageModel == 'Stable Diffusion':
-        url = image_generation.generate_stableDiffusion_image(prompt)
+    if imageModel == 'Stable Diffusion':                                                                                                                            
+        url = image_generation.generate_stableDiffusion_image(prompt,negative_prompt)       
     if imageModel == 'Kandinsky':
         url = image_generation.generate_stableDiffusion_image(prompt)
     if imageModel == 'Dall-E':
